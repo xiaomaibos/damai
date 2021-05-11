@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ecnu.damai.mapper.UserMapper">
+    <select id="findUserByUsernameAndPassword" resultType="integer" parameterType="cn.ecnu.damai.entity.User">
+        SELECT id
+        FROM user
+        WHERE username = #{username}
+          AND password = #{password}
+    </select>
+
+    <select id="findUserByUsername" resultType="cn.ecnu.damai.entity.User">
+        SELECT id AS uid,
+               username,
+               password,
+               nickname,
+               gender,
+               birthday,
+               identity,
+               image_url,
+               privilege
+        FROM user
+        WHERE username = #{username}
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO user(username, password)
+        VALUES (#{username}, #{password})
+    </insert>
+</mapper>
