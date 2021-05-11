@@ -3,7 +3,6 @@ package cn.ecnu.damai.controller;
 import cn.ecnu.damai.entity.User;
 import cn.ecnu.damai.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,7 +33,7 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping("/doLogin")
+    @RequestMapping("/doLogin")
     @ResponseBody
     public Map<String, String> doLogin(String username, String password, HttpServletRequest request) {
         Map<String, String> messageMap = new HashMap<>(8);
@@ -47,6 +46,7 @@ public class UserController {
 
         if (!loginSuccess) {
             messageMap.put("message", "用户名或者密码错误!");
+            messageMap.put("1", "失败");
             return messageMap;
         }
 
@@ -56,7 +56,7 @@ public class UserController {
         return messageMap;
     }
 
-    @PostMapping("/doRegister")
+    @RequestMapping("/doRegister")
     @ResponseBody
     public Map<String, String> doRegister(String username, String password) {
         Map<String, String> messageMap = new HashMap<>(8);
