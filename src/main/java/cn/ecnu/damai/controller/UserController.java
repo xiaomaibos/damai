@@ -35,10 +35,12 @@ public class UserController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public Map<String, String> doLogin(String username, String password, HttpServletRequest request) {
-        Map<String, String> messageMap = new HashMap<>(8);
+    public Map<String, Object> doLogin(String username, String password, HttpServletRequest request) {
+        Map<String, Object> messageMap = new HashMap<>(8);
         if (username == null || password == null) {
             messageMap.put("message", "用户名或者密码不能为空");
+            messageMap.put("code", 201);
+            messageMap.put("success", false);
             return messageMap;
         }
 
@@ -46,28 +48,35 @@ public class UserController {
 
         if (!loginSuccess) {
             messageMap.put("message", "用户名或者密码错误!");
-            messageMap.put("1", "失败");
+            messageMap.put("code", 204);
+            messageMap.put("success", false);
             return messageMap;
         }
 
         // 保存用户名信息，用于用户追踪
         request.getSession().setAttribute("username", username);
         messageMap.put("message", "登录成功!");
+        messageMap.put("code", 0);
+        messageMap.put("success", true);
         return messageMap;
     }
 
     @RequestMapping("/doRegister")
     @ResponseBody
-    public Map<String, String> doRegister(String username, String password) {
-        Map<String, String> messageMap = new HashMap<>(8);
+    public Map<String, Object> doRegister(String username, String password) {
+        Map<String, Object> messageMap = new HashMap<>(8);
         if (username == null || password == null) {
             messageMap.put("message", "用户名或者密码不能为空");
+            messageMap.put("code", 201);
+            messageMap.put("success", false);
             return messageMap;
         }
         User user = userService.findUserByUsername(username);
 
         if (user != null) {
             messageMap.put("message", "用户名已经存在!");
+            messageMap.put("code", 211);
+            messageMap.put("success", false);
             return messageMap;
         }
 
@@ -75,8 +84,12 @@ public class UserController {
 
         if (num == 0) {
             messageMap.put("message", "系统异常，请重试!");
+            messageMap.put("code", 999);
+            messageMap.put("success", false);
         } else {
             messageMap.put("message", "注册成功!");
+            messageMap.put("code", 0);
+            messageMap.put("success", true);
         }
         return messageMap;
     }
