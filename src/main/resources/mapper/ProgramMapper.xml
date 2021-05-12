@@ -1,21 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.ecnu.damai.mapper.ProgramMapper">
-    <select id="findProgramById" resultType="cn.ecnu.damai.entity.Program">
-        SELECT id          AS pid,
-               title,
-               low_price   AS lowPrice,
-               high_price  AS highPrice,
-               start_time  AS startTime,
-               end_time    AS endTime,
-               address,
-               `explain`,
-               detail,
-               notice,
-               image_url   AS image,
-               city_id     AS cityId,
-               category_id AS categoryId
-        FROM program
-        WHERE id = #{programId}
+    <select id="findProgramById" resultMap="program">
+        SELECT p.id          AS pid,
+               p.title       AS title,
+               p.low_price   AS lowPrice,
+               p.high_price  AS highPrice,
+               p.start_time  AS startTime,
+               p.end_time    AS endTime,
+               p.address     AS address,
+               p.`explain`   AS 'explain',
+               p.detail      AS detail,
+               p.notice      AS notice,
+               p.image_url   AS image,
+               p.city_id     AS cityId,
+               p.category_id AS categoryId,
+               c.id          AS city_id,
+               c.name        AS cName,
+               c.code        AS cCode,
+               c.count       AS cCount,
+               cy.id         AS category_id,
+               cy.name       AS cyName,
+               cy.count      AS cyCount
+        FROM program p,
+             city c,
+             category cy
+        WHERE p.city_id = c.id
+          AND p.category_id = cy.id
+          AND p.id = #{programId}
+    </select>
+
+    <resultMap id="program" type="cn.ecnu.damai.entity.Program">
+        <id column="pid" property="pid"/>
+        <result column="title" property="title"/>
+        <result column="lowPrice" property="lowPrice"/>
+        <result column="highPrice" property="highPrice"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="address" property="address"/>
+        <result column="explain" property="explain"/>
+        <result column="detail" property="detail"/>
+        <result column="notice" property="notice"/>
+        <result column="image" property="image"/>
+        <result column="cityId" property="cityId"/>
+        <result column="categoryId" property="categoryId"/>
+        <association property="city" javaType="cn.ecnu.damai.entity.City" column="city_id">
+            <id column="city_id" property="cityId"/>
+            <result column="cName" property="name"/>
+            <result column="cCode" property="code"/>
+            <result column="cCount" property="count"/>
+        </association>
+        <association property="category" javaType="cn.ecnu.damai.entity.Category" column="category_id">
+            <id column="category_id" property="cid"/>
+            <result column="cyName" property="name"/>
+            <result column="cyCount" property="count"/>
+        </association>
+    </resultMap>
+    <select id="findProgramWithFilters" resultMap="program" parameterType="cn.ecnu.damai.entity.ProgramFilter">
+        SELECT p.id AS pid,
+        p.title AS title,
+        p.low_price AS lowPrice,
+        p.high_price AS highPrice,
+        p.start_time AS startTime,
+        p.end_time AS endTime,
+        p.address AS address,
+        p.`explain` AS 'explain',
+        p.detail AS detail,
+        p.notice AS notice,
+        p.image_url AS image,
+        p.city_id AS cityId,
+        p.category_id AS categoryId,
+        c.id AS city_id,
+        c.name AS cName,
+        c.code AS cCode,
+        c.count AS cCount,
+        cy.id AS category_id,
+        cy.name AS cyName,
+        cy.count AS cyCount
+        FROM program p,
+        city c,
+        category cy
+        WHERE p.city_id = c.id
+        AND p.category_id = cy.id
+        <if test="city != null">
+            AND p.city_id = #{city}
+        </if>
+        <if test="category != null">
+            AND p.category_id = #{category}
+        </if>
+        <if test="keyWord != null">
+            AND (p.title like concat('%', #{keyWord}, '%') OR p.detail like concat('%', #{keyWord}, '%') OR p.`explain`
+            like concat('%', #{keyWord}, '%'))
+        </if>
+        <if test="startTime != null">
+            AND p.start_time &gt;= STR_TO_DATE(#{startTime},'yyyy-MM-dd HH:mm:ss')
+            AND p.start_time &lt;= STR_TO_DATE(#{endTime},'yyyy-MM-dd HH:mm:ss')
+        </if>
+        <if test="endTime != null">
+            AND p.end_time &gt;= STR_TO_DATE(#{startTime},'yyyy-MM-dd HH:mm:ss')
+            AND p.end_time &lt;= STR_TO_DATE(#{endTime},'yyyy-MM-dd HH:mm:ss')
+        </if>
     </select>
 </mapper>

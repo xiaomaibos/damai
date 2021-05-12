@@ -1,6 +1,9 @@
 package cn.ecnu.damai.mapper;
 
 import cn.ecnu.damai.entity.Program;
+import cn.ecnu.damai.entity.ProgramFilter;
+
+import java.util.List;
 
 /**
  * @author Kyrie Lee
@@ -8,4 +11,6 @@ import cn.ecnu.damai.entity.Program;
  */
 public interface ProgramMapper {
     Program findProgramById(Integer programId);
+
+    List<Program> findProgramWithFilters(ProgramFilter programFilter);
 }

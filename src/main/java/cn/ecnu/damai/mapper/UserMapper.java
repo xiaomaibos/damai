@@ -18,4 +18,6 @@ public interface UserMapper {
     User findUserByUsername(String username);
 
     int addUser(User user);
+
+    User findUserByUserId(Integer userId);
 }

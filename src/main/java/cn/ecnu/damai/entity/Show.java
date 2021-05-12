@@ -2,7 +2,9 @@ package cn.ecnu.damai.entity;
 
 import lombok.Data;
 
+import javax.persistence.Transient;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author Kyrie Lee
@@ -16,4 +18,10 @@ public class Show {
     private Date time;
 
     private Integer programId;
+    @Transient
+    private Program program;
+    @Transient
+    private Set<Order> orders;
+    @Transient
+    private Set<Level> levels;
 }

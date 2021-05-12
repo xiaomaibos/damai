@@ -3,8 +3,10 @@ package cn.ecnu.damai.controller;
 import cn.ecnu.damai.entity.User;
 import cn.ecnu.damai.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.awt.image.IntegerComponentRaster;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
     @Resource
@@ -92,5 +95,11 @@ public class UserController {
             messageMap.put("success", true);
         }
         return messageMap;
+    }
+
+    @RequestMapping("/getUser")
+    @ResponseBody
+    public User findUserByUserId(Integer userId) {
+        return userService.findUserByUserId(userId);
     }
 }

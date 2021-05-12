@@ -1,6 +1,7 @@
 package cn.ecnu.damai.service;
 
 import cn.ecnu.damai.entity.Program;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author Kyrie Lee
@@ -8,4 +9,6 @@ import cn.ecnu.damai.entity.Program;
  */
 public interface ProgramService {
     Program findProgramById(Integer programId);
+
+    PageInfo<Program> findProgramWithFilters(String keyWord, Integer city, Integer category, int pageSize, int currPage, String startTime, String endTime);
 }
