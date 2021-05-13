@@ -4,6 +4,7 @@ import cn.ecnu.damai.entity.Show;
 import cn.ecnu.damai.service.ShowService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/show")
+@CrossOrigin
 public class ShowController {
 
     @Resource

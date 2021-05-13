@@ -3,6 +3,7 @@ package cn.ecnu.damai.controller;
 import cn.ecnu.damai.entity.City;
 import cn.ecnu.damai.service.CityService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/city")
+@CrossOrigin
 public class CityController {
 
     @Resource
