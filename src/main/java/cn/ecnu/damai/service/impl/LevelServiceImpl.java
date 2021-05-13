@@ -6,6 +6,7 @@ import cn.ecnu.damai.service.LevelService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Kyrie Lee
@@ -19,5 +20,10 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public int addLevel(Level level) {
         return levelMapper.addLevel(level);
+    }
+
+    @Override
+    public List<Level> getLevelList(Integer showId) {
+        return levelMapper.getLevelList(showId);
     }
 }

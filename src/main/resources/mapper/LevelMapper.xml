@@ -5,4 +5,17 @@
         INSERT INTO level(name, price, total_count, left_count, limit_count, seat, show_id)
         VALUES (#{name}, #{price}, #{totalCount}, #{leftCount}, #{limitCount}, #{seat}, #{showId})
     </insert>
+
+    <select id="getLevelList" resultType="cn.ecnu.damai.entity.Level">
+        SELECT id         AS levelId,
+               name,
+               price,
+               total_count AS totalCount,
+               left_count AS leftCount,
+               limit_count AS limitCount,
+               seat,
+               show_id AS showId
+        FROM `level`
+        WHERE show_id = #{showId}
+    </select>
 </mapper>
