@@ -53,7 +53,14 @@ public class ProgramServiceImpl implements ProgramService {
             if (order == null || order == 1) {
                 return p1.getTitle().compareTo(p2.getTitle());
             } else if (order == 2) {
-                return p1.getShows().size() - p2.getShows().size();
+                double v = Double.parseDouble(p1.getHighPrice()) - Double.parseDouble(p2.getHighPrice());
+                if (v > 0) {
+                    return 1;
+                } else if (v < 0) {
+                    return -1;
+                } else {
+                    return 0;
+                }
             } else if (order == 3) {
                 return p1.getStartTime().compareTo(p2.getStartTime());
             } else {
