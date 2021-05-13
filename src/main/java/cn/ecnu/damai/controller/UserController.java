@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Resource
@@ -60,6 +60,7 @@ public class UserController {
         messageMap.put("message", "登录成功!");
         messageMap.put("code", 0);
         messageMap.put("success", true);
+        messageMap.put("user", userService.findUserByUsername(username));
         return messageMap;
     }
 
