@@ -45,6 +45,6 @@ public class ProgramController {
                                                     @RequestParam(defaultValue = "10") int pageSize,
                                                     @RequestParam(defaultValue = "1") int currPage,
                                                     String startTime, String endTime, Integer order) {
-        return programService.findProgramWithFilters(keyWord, city, category, pageSize, currPage, startTime, endTime, order);
+        return programService.findProgramWithFilters(keyword, city, category, pageSize, currPage, startTime, endTime, order);
     }
 }
