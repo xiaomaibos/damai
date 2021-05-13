@@ -10,6 +10,9 @@ import java.util.List;
  * @date 2021/5/11 15:17
  */
 public interface ShowMapper {
+
+    List<Show> getShowList(Integer programId);
+
     List<Show> findShowWithFilters(ShowFilter showFilter);
 
     int addShow(Show show);

@@ -36,7 +36,7 @@ public class DamaiCrawler {
                 String json = RegUtil.regFind(httpResult.getResult(), "__jp0\\(([\\s\\S]*)\\)");
                 transform(json, program);
 
-                String destUrl = "../damFile/program/" + code + ".jpg";
+                String destUrl = "damFile/program/" + code + ".jpg";
 
                 String savePath =  DamaiCrawler.class.getResource("/").getPath().
                         replace("WEB-INF/classes/", "damFile/program/");

@@ -14,4 +14,13 @@
         INSERT INTO `show`(name, time, program_id)
         VALUES (#{name}, #{time}, #{programId})
     </insert>
+
+    <select id="getShowList" resultType="cn.ecnu.damai.entity.Show">
+        SELECT id         AS showId,
+               name,
+               time,
+               program_id AS programId
+        FROM `show`
+        WHERE program_id = #{programId}
+    </select>
 </mapper>

@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Kyrie Lee
@@ -18,6 +19,11 @@ import javax.annotation.Resource;
 public class ShowServiceImpl implements ShowService {
     @Resource
     private ShowMapper showMapper;
+
+    @Override
+    public List<Show> getShowList(Integer programId) {
+        return showMapper.getShowList(programId);
+    }
 
     @Override
     public PageInfo<Show> findShowWithFilters(String keyWord, Integer pageSize, Integer currentPage) {
