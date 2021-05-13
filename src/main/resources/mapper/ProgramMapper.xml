@@ -55,11 +55,6 @@
             <result column="cyName" property="name"/>
             <result column="cyCount" property="count"/>
         </association>
-        <collection property="shows" ofType="cn.ecnu.damai.entity.Show">
-            <id column="sid" property="showId"/>
-            <result column="sName" property="name"/>
-            <result column="sTime" property="time"/>
-        </collection>
     </resultMap>
     <select id="findProgramWithFilters" resultMap="program" parameterType="cn.ecnu.damai.entity.ProgramFilter">
         SELECT p.id AS pid,
@@ -81,18 +76,12 @@
         c.count AS cCount,
         cy.id AS category_id,
         cy.name AS cyName,
-        cy.count AS cyCount,
-        s.id AS sid,
-        s.name AS sName,
-        s.time AS sTime,
-        s.program_id AS programId
+        cy.count AS cyCount
         FROM program p,
         city c,
-        category cy,
-        `show` s
+        category cy
         WHERE p.city_id = c.id
         AND p.category_id = cy.id
-        AND p.id = s.program_id
         <if test="city != null">
             AND p.city_id = #{city}
         </if>

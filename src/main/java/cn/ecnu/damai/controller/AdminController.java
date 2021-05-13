@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.persistence.Transient;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -96,6 +97,7 @@ public class AdminController {
 
     @RequestMapping("/damaiCrawl")
     @ResponseBody
+    @Transient
     public Map<String, Object> crawlProgramByCode(String code) {
         // 爬去大麦 并入库
         Map<String, Object> messageMap = new HashMap<>(8);
