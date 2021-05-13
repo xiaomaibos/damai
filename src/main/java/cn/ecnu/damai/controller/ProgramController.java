@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * @author Kyrie Lee
@@ -34,7 +33,7 @@ public class ProgramController {
     public PageInfo<Program> findProgramWithFilters(String keyWord, Integer city, Integer category,
                                                     @RequestParam(defaultValue = "10") int pageSize,
                                                     @RequestParam(defaultValue = "1") int currPage,
-                                                    String startTime, String endTime) {
-        return programService.findProgramWithFilters(keyWord, city, category, pageSize, currPage, startTime, endTime);
+                                                    String startTime, String endTime, Integer order) {
+        return programService.findProgramWithFilters(keyWord, city, category, pageSize, currPage, startTime, endTime, order);
     }
 }

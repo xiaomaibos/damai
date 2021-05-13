@@ -10,7 +10,7 @@ import com.github.pagehelper.PageInfo;
 public interface ProgramService {
     Program findProgramById(Integer programId);
 
-    PageInfo<Program> findProgramWithFilters(String keyWord, Integer city, Integer category, int pageSize, int currPage, String startTime, String endTime);
+    PageInfo<Program> findProgramWithFilters(String keyWord, Integer city, Integer category, int pageSize, int currPage, String startTime, String endTime, Integer order);
 
     int addProgram(Program program);
 }

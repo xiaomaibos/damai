@@ -13,4 +13,5 @@ public class ProgramFilter {
     private Integer category;
     private String startTime;
     private String endTime;
+    private Integer order;
 }
