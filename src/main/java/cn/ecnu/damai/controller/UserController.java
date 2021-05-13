@@ -118,7 +118,6 @@ public class UserController {
         user.setGender(gender);
         user.setIdentity(identity);
         user.setHeadImg(image_url);
-        System.out.println(birthday);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         if (birthday != null && !"".equals(birthday)) {
             user.setBirthday(format.parse(birthday));
@@ -127,6 +126,7 @@ public class UserController {
         if (num == 1) {
             messageMap.put("success", true);
             messageMap.put("message", "修改成功");
+            messageMap.put("user", user);
             return messageMap;
         }
         messageMap.put("success", false);
