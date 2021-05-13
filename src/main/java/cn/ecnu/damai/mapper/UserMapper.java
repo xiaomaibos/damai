@@ -20,4 +20,6 @@ public interface UserMapper {
     int addUser(User user);
 
     User findUserByUserId(Integer userId);
+
+    int updateUser(User user);
 }

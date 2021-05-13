@@ -13,4 +13,6 @@ public interface ProgramMapper {
     Program findProgramById(Integer programId);
 
     List<Program> findProgramWithFilters(ProgramFilter programFilter);
+
+    int addProgram(Program program);
 }

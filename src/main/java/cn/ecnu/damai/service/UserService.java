@@ -21,4 +21,6 @@ public interface UserService {
     int addUser(String username, String password);
 
     User findUserByUserId(Integer userId);
+
+    int editUser(User user);
 }

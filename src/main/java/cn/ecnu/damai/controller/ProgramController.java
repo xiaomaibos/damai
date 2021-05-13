@@ -37,11 +37,4 @@ public class ProgramController {
                                                     String startTime, String endTime) {
         return programService.findProgramWithFilters(keyWord, city, category, pageSize, currPage, startTime, endTime);
     }
-
-
-    @RequestMapping("/addProgram")
-    @ResponseBody
-    public Map<String, Object> addProgram(Program program) {
-        return null;
-    }
 }

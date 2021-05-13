@@ -9,4 +9,6 @@ import com.github.pagehelper.PageInfo;
  */
 public interface ShowService {
     PageInfo<Show> findShowWithFilters(String keyWord, Integer pageSize, Integer currentPage);
+
+    int addShow(Show show);
 }

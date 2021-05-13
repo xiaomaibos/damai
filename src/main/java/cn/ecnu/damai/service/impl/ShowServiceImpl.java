@@ -26,4 +26,9 @@ public class ShowServiceImpl implements ShowService {
         PageHelper.startPage(currentPage, pageSize);
         return new PageInfo<>(showMapper.findShowWithFilters(showFilter));
     }
+
+    @Override
+    public int addShow(Show show) {
+        return showMapper.addShow(show);
+    }
 }

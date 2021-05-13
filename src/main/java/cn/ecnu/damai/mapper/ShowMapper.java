@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface ShowMapper {
     List<Show> findShowWithFilters(ShowFilter showFilter);
+
+    int addShow(Show show);
 }

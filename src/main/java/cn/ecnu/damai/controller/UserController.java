@@ -102,4 +102,20 @@ public class UserController {
     public User findUserByUserId(Integer userId) {
         return userService.findUserByUserId(userId);
     }
+
+    @RequestMapping("/editUser")
+    @ResponseBody
+    public Map<String, Object> editUser(String image_url, User user) {
+        Map<String, Object> messageMap = new HashMap<>(8);
+        user.setHeadImg(image_url);
+        int num = userService.editUser(user);
+        if (num == 1) {
+            messageMap.put("success", true);
+            messageMap.put("message", "修改成功");
+            return messageMap;
+        }
+        messageMap.put("success", false);
+        messageMap.put("message", "修改失败!");
+        return messageMap;
+    }
 }

@@ -25,7 +25,7 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public Program findProgramById(Integer programId) {
         Program program = programMapper.findProgramById(programId);
-        if (program != null ) {
+        if (program != null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             program.setShowStartTime(format.format(program.getStartTime()));
             program.setShowEndTime(format.format(program.getEndTime()));
@@ -49,5 +49,10 @@ public class ProgramServiceImpl implements ProgramService {
             program.setShowEndTime(format.format(program.getEndTime()));
         }
         return new PageInfo<>(programs);
+    }
+
+    @Override
+    public int addProgram(Program program) {
+        return programMapper.addProgram(program);
     }
 }

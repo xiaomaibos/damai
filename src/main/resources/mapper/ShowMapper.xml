@@ -9,4 +9,9 @@
         FROM `show`
         WHERE name like concat('%', #{keyWord}, '%')
     </select>
+
+    <insert id="addShow">
+        INSERT INTO `show`(name, time, program_id)
+        VALUES (#{name}, #{time}, #{programId})
+    </insert>
 </mapper>
