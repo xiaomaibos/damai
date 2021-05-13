@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.nio.ch.SelectorImpl;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -108,11 +107,22 @@ public class UserController {
 
     @RequestMapping("/editUser")
     @ResponseBody
-    public Map<String, Object> editUser(String image_url, String birthday, User user) throws ParseException {
+    public Map<String, Object> editUser(String image_url, String birthday,
+                                        String nickname, String password, String identity,
+                                        Integer gender, Integer uid) throws ParseException {
         Map<String, Object> messageMap = new HashMap<>(8);
+        User user = new User();
+        user.setUid(uid);
+        user.setPassword(password);
+        user.setNickname(nickname);
+        user.setGender(gender);
+        user.setIdentity(identity);
         user.setHeadImg(image_url);
+        System.out.println(birthday);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        user.setBirthday(format.parse(birthday));
+        if (birthday != null && !"".equals(birthday)) {
+            user.setBirthday(format.parse(birthday));
+        }
         int num = userService.editUser(user);
         if (num == 1) {
             messageMap.put("success", true);
