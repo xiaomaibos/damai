@@ -119,12 +119,10 @@ public class AdminController {
             }
 
             Set<Show> shows = program.getShows();
-            program.setShows(null);
             programService.addProgram(program);
             for (Show show : shows) {
                 show.setProgramId(program.getPid());
                 Set<Level> levels = show.getLevels();
-                show.setLevels(null);
                 showService.addShow(show);
                 for (Level level: levels) {
                     level.setShowId(show.getShowId());
