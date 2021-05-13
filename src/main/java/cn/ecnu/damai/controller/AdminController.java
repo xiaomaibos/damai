@@ -1,7 +1,9 @@
 package cn.ecnu.damai.controller;
 
+import cn.ecnu.damai.entity.Level;
 import cn.ecnu.damai.entity.Program;
 import cn.ecnu.damai.entity.Show;
+import cn.ecnu.damai.service.LevelService;
 import cn.ecnu.damai.service.ProgramService;
 import cn.ecnu.damai.service.ShowService;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ public class AdminController {
     private ProgramService programService;
     @Resource
     private ShowService showService;
+    @Resource
+    private LevelService levelService;
 
     @RequestMapping("/addProgram")
     @ResponseBody
@@ -52,6 +56,24 @@ public class AdminController {
     public Map<String, Object> addShow(Show show) {
         Map<String, Object> messageMap = new HashMap<>(8);
         int num = showService.addShow(show);
+        if (num == 1) {
+            messageMap.put("success", true);
+            messageMap.put("code", 1);
+            messageMap.put("message", "添加成功");
+            return messageMap;
+        }
+        messageMap.put("success", false);
+        messageMap.put("code", 300);
+        messageMap.put("message", "添加失败");
+        return messageMap;
+    }
+
+
+    @RequestMapping("/addLevel")
+    @ResponseBody
+    public Map<String, Object> addLevel(Level level) {
+        Map<String, Object> messageMap = new HashMap<>(8);
+        int num = levelService.addLevel(level);
         if (num == 1) {
             messageMap.put("success", true);
             messageMap.put("code", 1);
