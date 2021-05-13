@@ -1,6 +1,9 @@
 package cn.ecnu.damai.controller;
 
+import cn.ecnu.damai.entity.Level;
+import cn.ecnu.damai.entity.Program;
 import cn.ecnu.damai.entity.Show;
+import cn.ecnu.damai.service.LevelService;
 import cn.ecnu.damai.service.ShowService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Kyrie Lee
@@ -22,6 +27,8 @@ public class ShowController {
 
     @Resource
     private ShowService showService;
+    @Resource
+    private LevelService levelService;
 
     /**
      * keyword=&city=&category=&startTime=&endTime=&order=&pageSize=&currPage=
@@ -37,5 +44,14 @@ public class ShowController {
                                               @RequestParam(defaultValue = "10") Integer pageSize,
                                               @RequestParam(defaultValue = "1") Integer currentPage) {
         return showService.findShowWithFilters(keyWord, pageSize, currentPage);
+    }
+
+    @RequestMapping("/getShow")
+    @ResponseBody
+    public Show findShowById(Integer showId) {
+        Show show = showService.findShowById(showId);
+        Set<Level> levels = new HashSet<>(levelService.getLevelList(showId));
+        show.setLevels(levels);
+        return show;
     }
 }

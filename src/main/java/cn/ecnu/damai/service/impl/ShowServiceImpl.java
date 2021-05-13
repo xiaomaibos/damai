@@ -37,4 +37,9 @@ public class ShowServiceImpl implements ShowService {
     public int addShow(Show show) {
         return showMapper.addShow(show);
     }
+
+    @Override
+    public Show findShowById(Integer showId) {
+        return showMapper.findShowById(showId);
+    }
 }

@@ -16,4 +16,6 @@ public interface ShowMapper {
     List<Show> findShowWithFilters(ShowFilter showFilter);
 
     int addShow(Show show);
+
+    Show findShowById(Integer showId);
 }

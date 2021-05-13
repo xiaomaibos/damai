@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.json.JsonbTester;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -21,5 +22,11 @@ public class ShowServiceTest {
     public void testGetShowList() {
         List<Show> shows = showService.getShowList(1);
         System.out.println(JSON.toJSONString(shows));
+    }
+
+    @Test
+    public void testFindShowById() {
+        Show show = showService.findShowById(1);
+        System.out.println(JSON.toJSONString(show));
     }
 }

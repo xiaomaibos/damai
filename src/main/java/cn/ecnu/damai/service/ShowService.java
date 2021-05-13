@@ -16,4 +16,6 @@ public interface ShowService {
     PageInfo<Show> findShowWithFilters(String keyWord, Integer pageSize, Integer currentPage);
 
     int addShow(Show show);
+
+    Show findShowById(Integer showId);
 }
