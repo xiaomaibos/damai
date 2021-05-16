@@ -1,7 +1,7 @@
 package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.entity.User;
-import cn.ecnu.damai.mapper.UserMapper;
+import cn.ecnu.damai.dao.mapper.UserMapper;
 import cn.ecnu.damai.service.UserService;
 import org.springframework.stereotype.Service;
 

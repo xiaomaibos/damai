@@ -2,7 +2,7 @@ package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.entity.Show;
 import cn.ecnu.damai.entity.ShowFilter;
-import cn.ecnu.damai.mapper.ShowMapper;
+import cn.ecnu.damai.dao.mapper.ShowMapper;
 import cn.ecnu.damai.service.ShowService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

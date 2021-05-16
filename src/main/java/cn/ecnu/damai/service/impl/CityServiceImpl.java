@@ -1,7 +1,7 @@
 package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.entity.City;
-import cn.ecnu.damai.mapper.CityMapper;
+import cn.ecnu.damai.dao.mapper.CityMapper;
 import cn.ecnu.damai.service.CityService;
 import org.springframework.stereotype.Service;
 

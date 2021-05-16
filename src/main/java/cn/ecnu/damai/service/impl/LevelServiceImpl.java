@@ -1,7 +1,7 @@
 package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.entity.Level;
-import cn.ecnu.damai.mapper.LevelMapper;
+import cn.ecnu.damai.dao.mapper.LevelMapper;
 import cn.ecnu.damai.service.LevelService;
 import org.springframework.stereotype.Service;
 

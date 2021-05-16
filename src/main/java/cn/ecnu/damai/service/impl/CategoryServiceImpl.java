@@ -1,7 +1,7 @@
 package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.entity.Category;
-import cn.ecnu.damai.mapper.CategoryMapper;
+import cn.ecnu.damai.dao.mapper.CategoryMapper;
 import cn.ecnu.damai.service.CategoryService;
 import org.springframework.stereotype.Service;
 
