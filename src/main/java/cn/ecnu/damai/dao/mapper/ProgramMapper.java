@@ -1,4 +1,4 @@
-package cn.ecnu.damai.mapper;
+package cn.ecnu.damai.dao.mapper;
 
 import cn.ecnu.damai.entity.Program;
 import cn.ecnu.damai.entity.ProgramFilter;

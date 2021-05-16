@@ -97,7 +97,6 @@ public class AdminController {
 
     @RequestMapping("/damaiCrawl")
     @ResponseBody
-    @Transient
     public Map<String, Object> crawlProgramByCode(String code) {
         // 爬去大麦 并入库
         Map<String, Object> messageMap = new HashMap<>(8);

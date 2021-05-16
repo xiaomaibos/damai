@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("cn.ecnu.damai.mapper")
+@MapperScan("cn.ecnu.damai.dao.mapper")
 public class DamaiApplication {
 
     public static void main(String[] args) {
