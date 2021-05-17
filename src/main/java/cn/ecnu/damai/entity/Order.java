@@ -38,15 +38,10 @@ public class Order {
     private Integer showId;
 
     @Transient
-    @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
     @Transient
-    @ManyToOne(targetEntity = Show.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "show_id",referencedColumnName = "id")
     private Show show;
 
     @Transient
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 }

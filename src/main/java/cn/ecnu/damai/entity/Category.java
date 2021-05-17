@@ -21,6 +21,5 @@ public class Category {
     private Integer count;
 
     @Transient
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
     private Set<Program> programs;
 }

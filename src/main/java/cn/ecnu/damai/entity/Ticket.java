@@ -28,13 +28,9 @@ public class Ticket {
     private Integer levelId;
 
     @Transient
-    @ManyToOne(targetEntity = Order.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id",referencedColumnName = "id")
     private Order order;
 
     @Transient
-    @ManyToOne(targetEntity = Level.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "level_id",referencedColumnName = "id")
     private Level level;
 
 }

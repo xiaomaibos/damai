@@ -24,13 +24,9 @@ public class Show {
     private Integer programId;
 
     @Transient
-    @ManyToOne(targetEntity = Program.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id",referencedColumnName = "id")
     private Program program;
     @Transient
-    @OneToMany(mappedBy = "show",cascade = CascadeType.ALL)
     private Set<Order> orders;
     @Transient
-    @OneToMany(mappedBy = "show",cascade = CascadeType.ALL)
     private Set<Level> levels;
 }

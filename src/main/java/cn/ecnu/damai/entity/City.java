@@ -22,6 +22,5 @@ public class City {
     private Integer count;
 
     @Transient
-    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL)
     private Set<Program> programs;
 }

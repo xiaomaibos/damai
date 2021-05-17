@@ -25,7 +25,5 @@ public class Attender {
     private Integer userId;
 
     @Transient
-    @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 }

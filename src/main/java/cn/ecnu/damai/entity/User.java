@@ -29,12 +29,9 @@ public class User {
     private int privilege;
 
     @Transient
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Order> orders;
     @Transient
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Address> addresses;
     @Transient
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Attender> attenders;
 }

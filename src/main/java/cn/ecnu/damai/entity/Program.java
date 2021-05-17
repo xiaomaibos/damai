@@ -48,15 +48,10 @@ public class Program {
     private Integer categoryId;
 
     @Transient
-    @ManyToOne(targetEntity = City.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id",referencedColumnName = "id")
     private City city;
     @Transient
-    @ManyToOne(targetEntity = Category.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
 
     @Transient
-    @OneToMany(mappedBy = "program",cascade = CascadeType.ALL)
     private Set<Show> shows;
 }

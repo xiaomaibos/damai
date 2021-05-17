@@ -30,11 +30,8 @@ public class Level {
     private Integer showId;
 
     @Transient
-    @ManyToOne(targetEntity = Show.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "show_id",referencedColumnName = "id")
     private Show show;
 
     @Transient
-    @OneToMany(mappedBy = "level",cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 }
