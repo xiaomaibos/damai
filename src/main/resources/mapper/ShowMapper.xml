@@ -21,9 +21,6 @@
     </select>
 
     <insert id="addShow">
-        <selectKey keyProperty="showId" resultType="integer">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
         INSERT INTO `show`(name, time, program_id)
         VALUES (#{name}, #{time}, #{programId})
     </insert>

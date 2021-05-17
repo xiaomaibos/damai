@@ -103,9 +103,6 @@
     </select>
 
     <insert id="addProgram">
-        <selectKey keyProperty="pid" resultType="integer">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
         INSERT INTO program(title, low_price, high_price, start_time, end_time, address, `explain`, detail, notice,
         image_url, city_id, category_id)
         VALUES (#{title}, #{lowPrice}, #{highPrice}, #{startTime},
