@@ -21,6 +21,8 @@ public class Address {
     private String detail;
     @Column(name = "user_id")
     private Integer userId;
+    @Column(name = "is_delete")
+    private Integer isDelete = 0;
 
     @Transient
     private User user;

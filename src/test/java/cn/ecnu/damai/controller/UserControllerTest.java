@@ -1,6 +1,6 @@
 package cn.ecnu.damai.controller;
 
-import cn.ecnu.damai.controller.Response.ResultResponse;
+import cn.ecnu.damai.controller.Response.ResultMap;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,31 +17,37 @@ public class UserControllerTest {
 
     @Test
     public void testAddAddress() {
-        ResultResponse result = userController.addAddress("钟小浩2", "1579083386", "上海普陀", 10);
+        ResultMap result = userController.addAddress("钟小浩2", "1579083386", "上海普陀", 10);
         System.out.println(result);
     }
 
     @Test
     public void testDeleteAddress() {
-        ResultResponse result = userController.deleteAddress(4);
+        ResultMap result = userController.deleteAddress(4);
         System.out.println(result);
     }
 
     @Test
     public void testAddAttender() {
-        ResultResponse result = userController.addAttender("观影人1", "身份证", "360502199810030022", 10);
+        ResultMap result = userController.addAttender("观影人1", "身份证", "360502199810030022", 10);
         System.out.println(result);
     }
 
     @Test
     public void testDeleteAttender() {
-        ResultResponse result = userController.deleteAttender(4);
+        ResultMap result = userController.deleteAttender(4);
         System.out.println(result);
     }
 
     @Test
-    public void testConfirmTicket() {
-        ResultResponse result = userController.confirmTicket(1, 6);
+    public void testConfirmOrder() {
+        ResultMap result = userController.confirmOrder(10, "zhong", "15079086666", "1,2", 1, 2);
         System.out.println(JSON.toJSONString(result));
+    }
+
+    @Test
+    public void testGetOrderList() {
+        ResultMap result = userController.getOrderList(10);
+        System.out.println(result);
     }
 }

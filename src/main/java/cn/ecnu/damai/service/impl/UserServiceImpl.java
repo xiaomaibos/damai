@@ -2,8 +2,7 @@ package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.dao.repository.AddressRepository;
 import cn.ecnu.damai.dao.repository.AttenderRepository;
-import cn.ecnu.damai.entity.Address;
-import cn.ecnu.damai.entity.Attender;
+import cn.ecnu.damai.dao.repository.UserRepository;
 import cn.ecnu.damai.entity.User;
 import cn.ecnu.damai.dao.mapper.UserMapper;
 import cn.ecnu.damai.service.UserService;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
+import java.util.Optional;
 
 /**
  * @author Kyrie Lee
@@ -21,6 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserRepository userRepository;
     @Resource
     private AddressRepository addressRepository;
     @Resource
@@ -52,36 +54,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUserId(Integer userId) {
-        User user = userMapper.findUserByUserId(userId);
-        user.setAddresses(new HashSet<>(addressRepository.findByUserId(userId)));
-        user.setAttenders(new HashSet<>(attenderRepository.findByUserId(userId)));
-        return user;
-    }
-
-    @Override
     public int editUser(User user) {
         return userMapper.updateUser(user);
     }
 
     @Override
-    public Address addAddress(Address address) {
-        return addressRepository.save(address);
-    }
-
-    @Override
-    public void deleteAddress(Integer addressId) {
-        addressRepository.deleteById(addressId);
-    }
-
-    @Override
-    public Attender addAttender(Attender attender) {
-        return attenderRepository.save(attender);
-    }
-
-    @Override
-    public void deleteAttender(Integer attenderId) {
-        attenderRepository.deleteById(attenderId);
+    public User findUserByUserId(Integer userId) {
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            user.setAddresses(new HashSet<>(addressRepository.findByUserId(userId)));
+            user.setAttenders(new HashSet<>(attenderRepository.findByUserId(userId)));
+            return user;
+        }
+        return null;
     }
 
 }

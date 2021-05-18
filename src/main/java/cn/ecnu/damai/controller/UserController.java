@@ -1,10 +1,12 @@
 package cn.ecnu.damai.controller;
 
-import cn.ecnu.damai.controller.Response.ResultResponse;
+import cn.ecnu.damai.controller.Response.ResultMap;
+import cn.ecnu.damai.controller.Response.ResultType;
 import cn.ecnu.damai.entity.*;
-import cn.ecnu.damai.service.LevelService;
-import cn.ecnu.damai.service.TicketService;
-import cn.ecnu.damai.service.UserService;
+import cn.ecnu.damai.service.*;
+import cn.ecnu.damai.util.RandomString;
+import cn.ecnu.damai.util.SplitString;
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -32,6 +33,12 @@ public class UserController {
     private LevelService levelService;
     @Resource
     private TicketService ticketService;
+    @Resource
+    private OrderService orderService;
+    @Resource
+    private AttenderService attenderService;
+    @Resource
+    private AddressService addressService;
 
     @RequestMapping("/toLogin")
     public String toLogin() {
@@ -105,12 +112,6 @@ public class UserController {
         return messageMap;
     }
 
-    @RequestMapping("/getUser")
-    @ResponseBody
-    public User findUserByUserId(Integer userId) {
-        return userService.findUserByUserId(userId);
-    }
-
     @RequestMapping("/editUser")
     @ResponseBody
     public Map<String, Object> editUser(String image_url, String birthday,
@@ -140,39 +141,57 @@ public class UserController {
         return messageMap;
     }
 
+    @RequestMapping("/getUser")
+    @ResponseBody
+    public ResultMap findUserByUserId(Integer userId) {
+        try {
+            User user = userService.findUserByUserId(userId);
+            if (user == null) {
+                return new ResultMap(ResultType.INVALID_PARAM);
+            }
+            return new ResultMap(ResultType.SUCCESS, user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMap(ResultType.SEVER_ERROR);
+        }
+    }
+
     @RequestMapping("/addAddress")
     @ResponseBody
-    public ResultResponse addAddress(String name, String phone, String detail, Integer userId) {
+    public ResultMap addAddress(String name, String phone, String detail, Integer userId) {
         Address address = new Address();
         address.setName(name);
         address.setPhone(phone);
         address.setDetail(detail);
         address.setUserId(userId);
         try {
-            userService.addAddress(address);
-            return ResultResponse.SUCCESS().setData(address);
+            addressService.addAddress(address);
+            return new ResultMap(ResultType.SUCCESS, address);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultResponse.FAIL();
+            return new ResultMap(ResultType.SEVER_ERROR);
         }
 
     }
 
     @RequestMapping("/deleteAddress")
     @ResponseBody
-    public ResultResponse deleteAddress(Integer addressId) {
+    public ResultMap deleteAddress(Integer addressId) {
         try {
-            userService.deleteAddress(addressId);
-            return ResultResponse.SUCCESS().setMessage("删除成功");
+            if (addressService.deleteAddress(addressId)) {
+                return new ResultMap(ResultType.SUCCESS);
+            } else {
+                return new ResultMap(ResultType.FAIL);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultResponse.FAIL();
+            return new ResultMap(ResultType.SEVER_ERROR);
         }
     }
 
     @RequestMapping("/addAttender")
     @ResponseBody
-    public ResultResponse addAttender(String name, String identityType, String identityNum, Integer userId) {
+    public ResultMap addAttender(String name, String identityType, String identityNum, Integer userId) {
         Attender attender = new Attender();
         attender.setName(name);
         attender.setIdentityType(identityType);
@@ -180,45 +199,100 @@ public class UserController {
         attender.setUserId(userId);
 
         try {
-            userService.addAttender(attender);
-            return ResultResponse.SUCCESS().setData(attender);
+            attenderService.addAttender(attender);
+            return new ResultMap(ResultType.SUCCESS, attender);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultResponse.FAIL();
+            return new ResultMap(ResultType.SEVER_ERROR);
         }
 
     }
 
     @RequestMapping("/deleteAttender")
     @ResponseBody
-    public ResultResponse deleteAttender(Integer attenderId) {
+    public ResultMap deleteAttender(Integer attenderId) {
         try {
-            userService.deleteAttender(attenderId);
-            return ResultResponse.SUCCESS().setMessage("删除成功");
+            if (attenderService.deleteAttender(attenderId)) {
+                return new ResultMap(ResultType.SUCCESS);
+            } else {
+                return new ResultMap(ResultType.FAIL);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultResponse.FAIL();
+            return new ResultMap(ResultType.SEVER_ERROR);
         }
     }
 
-    @RequestMapping("/confirmTicket")
+    @RequestMapping("/confirmOrder")
     @ResponseBody
-    public ResultResponse confirmTicket(Integer levelId, Integer count) {
+    public ResultMap confirmOrder(Integer userId, String linkman, String linknum, String attenders, Integer levelId, Integer count) {
         try {
+            // 生成订单 此处可加队列
             Level level = levelService.getLevel(levelId);
-            List<Ticket> tickets = new ArrayList<>();
+            if (level == null) {
+                return new ResultMap(ResultType.INVALID_PARAM);
+            }
+            int leftCount = level.getLeftCount() - count;
+            if (leftCount >= 0) {
+                level.setLeftCount(leftCount);
+                levelService.updateLevel(level);
+            } else {
+                return new ResultMap(ResultType.FAIL);
+            }
+
+            List<String> strAtts = SplitString.splitString(attenders, ",");
+            List<Attender> attList = new ArrayList<>();
+            for (String strAtt : strAtts) {
+                Attender attender = attenderService.getAttender(Integer.parseInt(strAtt));
+                if (attender == null) {
+                    return new ResultMap(ResultType.INVALID_PARAM);
+                }
+                attList.add(attender);
+            }
+
+            int price = Integer.parseInt(level.getPrice()) * count;
+            String code = RandomString.getRandomString(18);
+
+            Order order = new Order();
+            order.setCode(code);
+            order.setCreateTime(new Date());
+            order.setStatus(0);
+            order.setStatusInfo("待付款");
+            order.setTotalCount(count);
+            order.setTotalPrice(Integer.toString(price));
+            order.setLinkman(linkman);
+            order.setLinkNum(linknum);
+            order.setUserId(userId);
+            order.setShowId(level.getShowId());
+            order.setAttender(JSON.toJSONString(attList));
+            orderService.addOrder(order);
+
+            // 生成门票
             for (int i = 0; i < count; i++) {
                 Ticket ticket= new Ticket();
                 ticket.setPrice(level.getPrice());
-                ticket.setValid(0);
+                ticket.setValid(1);
+                ticket.setOrderId(order.getOrderId());
                 ticket.setLevelId(levelId);
-                tickets.add(ticketService.addTicket(ticket));
+                ticketService.addTicket(ticket);
             }
-            level.setTickets(new HashSet<>(tickets));
-            return ResultResponse.SUCCESS().setData(level);
+            return new ResultMap(ResultType.SUCCESS, order);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultResponse.FAIL();
+            return new ResultMap(ResultType.SEVER_ERROR);
         }
     }
+
+    @RequestMapping("/getOrderList")
+    @ResponseBody
+    public ResultMap getOrderList(Integer userId) {
+        try {
+            List<Order> orders = orderService.getOrderList(userId);
+            return new ResultMap(ResultType.SUCCESS, orders);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMap(ResultType.SEVER_ERROR);
+        }
+    }
+
 }

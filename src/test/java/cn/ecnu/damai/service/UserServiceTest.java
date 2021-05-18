@@ -1,7 +1,5 @@
 package cn.ecnu.damai.service;
 
-import cn.ecnu.damai.entity.Address;
-import cn.ecnu.damai.entity.Attender;
 import cn.ecnu.damai.entity.User;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
@@ -56,35 +54,4 @@ public class UserServiceTest {
         int result = userService.editUser(user);
         System.out.println(JSON.toJSONString(result));
     }
-
-    @Test
-    public void testAddAddress() {
-        Address address = new Address();
-        address.setName("钟小浩");
-        address.setPhone("15079084000");
-        address.setDetail("江西省");
-        address.setUserId(10);
-        System.out.println(JSON.toJSONString(userService.addAddress(address)));
-    }
-
-    @Test
-    public void testDeleteAddress() {
-        userService.deleteAddress(2);
-    }
-
-    @Test
-    public void testAddAttender() {
-        Attender attender = new Attender();
-        attender.setName("虚伪鱼");
-        attender.setIdentityType("身份证");
-        attender.setIdentityNum("360502200210010033");
-        attender.setUserId(10);
-        System.out.println(JSON.toJSONString(userService.addAttender(attender)));
-    }
-    
-    @Test
-    public void testDeleteAttender() {
-        userService.deleteAttender(2);
-    }
-
 }

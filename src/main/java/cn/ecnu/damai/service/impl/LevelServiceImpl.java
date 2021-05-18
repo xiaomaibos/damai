@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Kyrie Lee
@@ -23,10 +24,6 @@ public class LevelServiceImpl implements LevelService {
     private LevelMapper levelMapper;
     @Resource
     private LevelRepository levelRepository;
-    @Resource
-    private ShowRepository showRepository;
-    @Resource
-    private ProgramRepository programRepository;
 
     @Override
     public int addLevel(Level level) {
@@ -40,12 +37,13 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public Level getLevel(Integer levelId) {
-        Level level = levelRepository.findById(levelId).get();
-        Show show = showRepository.findById(level.getShowId()).get();
-        Program program = programRepository.findById(show.getProgramId()).get();
-        show.setProgram(program);
-        level.setShow(show);
-        return level;
+        Optional<Level> optLevel = levelRepository.findById(levelId);
+        return optLevel.orElse(null);
+    }
+
+    @Override
+    public Level updateLevel(Level level) {
+        return levelRepository.save(level);
     }
 
 }

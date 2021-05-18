@@ -16,4 +16,6 @@ public interface LevelService {
     int addLevel(Level level);
 
     Level getLevel(Integer levelId);
+
+    Level updateLevel(Level level);
 }
