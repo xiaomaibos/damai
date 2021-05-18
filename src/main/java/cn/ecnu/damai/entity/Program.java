@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "program")
 public class Program {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer pid;
     private String title;

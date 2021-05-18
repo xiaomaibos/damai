@@ -1,6 +1,7 @@
 package cn.ecnu.damai.service;
 
 import cn.ecnu.damai.entity.Level;
+import cn.ecnu.damai.entity.Show;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface LevelService {
     List<Level> getLevelList(Integer showId);
 
     int addLevel(Level level);
+
+    Level getLevel(Integer levelId);
 }

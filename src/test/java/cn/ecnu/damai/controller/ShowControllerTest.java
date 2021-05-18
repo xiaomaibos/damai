@@ -1,8 +1,6 @@
 package cn.ecnu.damai.controller;
 
-import cn.ecnu.damai.entity.Program;
 import cn.ecnu.damai.entity.Show;
-import cn.ecnu.damai.service.ShowService;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.junit.runner.RunWith;

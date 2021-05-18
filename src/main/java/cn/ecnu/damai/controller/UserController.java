@@ -1,19 +1,21 @@
 package cn.ecnu.damai.controller;
 
-import cn.ecnu.damai.entity.User;
+import cn.ecnu.damai.controller.Response.ResultResponse;
+import cn.ecnu.damai.entity.*;
+import cn.ecnu.damai.service.LevelService;
+import cn.ecnu.damai.service.TicketService;
 import cn.ecnu.damai.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.nio.ch.SelectorImpl;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Kyrie Lee
@@ -26,7 +28,10 @@ public class UserController {
 
     @Resource
     private UserService userService;
-
+    @Resource
+    private LevelService levelService;
+    @Resource
+    private TicketService ticketService;
 
     @RequestMapping("/toLogin")
     public String toLogin() {
@@ -133,5 +138,87 @@ public class UserController {
         messageMap.put("success", false);
         messageMap.put("message", "修改失败!");
         return messageMap;
+    }
+
+    @RequestMapping("/addAddress")
+    @ResponseBody
+    public ResultResponse addAddress(String name, String phone, String detail, Integer userId) {
+        Address address = new Address();
+        address.setName(name);
+        address.setPhone(phone);
+        address.setDetail(detail);
+        address.setUserId(userId);
+        try {
+            userService.addAddress(address);
+            return ResultResponse.SUCCESS().setData(address);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultResponse.FAIL();
+        }
+
+    }
+
+    @RequestMapping("/deleteAddress")
+    @ResponseBody
+    public ResultResponse deleteAddress(Integer addressId) {
+        try {
+            userService.deleteAddress(addressId);
+            return ResultResponse.SUCCESS().setMessage("删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultResponse.FAIL();
+        }
+    }
+
+    @RequestMapping("/addAttender")
+    @ResponseBody
+    public ResultResponse addAttender(String name, String identityType, String identityNum, Integer userId) {
+        Attender attender = new Attender();
+        attender.setName(name);
+        attender.setIdentityType(identityType);
+        attender.setIdentityNum(identityNum);
+        attender.setUserId(userId);
+
+        try {
+            userService.addAttender(attender);
+            return ResultResponse.SUCCESS().setData(attender);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultResponse.FAIL();
+        }
+
+    }
+
+    @RequestMapping("/deleteAttender")
+    @ResponseBody
+    public ResultResponse deleteAttender(Integer attenderId) {
+        try {
+            userService.deleteAttender(attenderId);
+            return ResultResponse.SUCCESS().setMessage("删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultResponse.FAIL();
+        }
+    }
+
+    @RequestMapping("/confirmTicket")
+    @ResponseBody
+    public ResultResponse confirmTicket(Integer levelId, Integer count) {
+        try {
+            Level level = levelService.getLevel(levelId);
+            List<Ticket> tickets = new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                Ticket ticket= new Ticket();
+                ticket.setPrice(level.getPrice());
+                ticket.setValid(0);
+                ticket.setLevelId(levelId);
+                tickets.add(ticketService.addTicket(ticket));
+            }
+            level.setTickets(new HashSet<>(tickets));
+            return ResultResponse.SUCCESS().setData(level);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultResponse.FAIL();
+        }
     }
 }

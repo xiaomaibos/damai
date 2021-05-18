@@ -1,8 +1,10 @@
 package cn.ecnu.damai.service;
 
 import cn.ecnu.damai.entity.Level;
+import cn.ecnu.damai.entity.Show;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,4 +39,11 @@ public class LevelServiceTest {
         List<Level> levels = levelService.getLevelList(1);
         System.out.println(JSON.toJSONString(levels));
     }
+
+    @Test
+    public void testGetLevel() {
+        Level level = levelService.getLevel(1);
+        System.out.println(JSON.toJSONString(level));
+    }
+
 }

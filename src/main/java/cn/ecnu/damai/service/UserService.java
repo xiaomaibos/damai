@@ -1,5 +1,7 @@
 package cn.ecnu.damai.service;
 
+import cn.ecnu.damai.entity.Address;
+import cn.ecnu.damai.entity.Attender;
 import cn.ecnu.damai.entity.User;
 
 /**
@@ -23,4 +25,12 @@ public interface UserService {
     User findUserByUserId(Integer userId);
 
     int editUser(User user);
+
+    Address addAddress(Address address);
+
+    void deleteAddress(Integer addressId);
+
+    Attender addAttender(Attender attender);
+
+    void deleteAttender(Integer attenderId);
 }

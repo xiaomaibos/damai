@@ -12,10 +12,10 @@ import java.util.Set;
  */
 @Data
 @Entity
-@Table(name = "show")
+@Table(name = "`show`")
 public class Show {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer showId;
     private String name;

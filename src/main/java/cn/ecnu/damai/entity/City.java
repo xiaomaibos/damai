@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "city")
 public class City {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer cityId;
     private String name;
