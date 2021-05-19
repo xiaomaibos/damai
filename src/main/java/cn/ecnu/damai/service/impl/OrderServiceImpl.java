@@ -47,4 +47,24 @@ public class OrderServiceImpl implements OrderService {
         }
         return resList;
     }
+
+    @Override
+    public Order getOrder(Integer orderId) {
+        Optional<Order> optOrder = orderRepository.findById(orderId);
+        if (optOrder.isPresent()) {
+            Order order = optOrder.get();
+            Optional<Show> optShow = showRepository.findById(order.getShowId());
+            if (optShow.isPresent()) {
+                Show show = optShow.get();
+                Optional<Program> optProgram = programRepository.findById(show.getProgramId());
+                if (optProgram.isPresent()) {
+                    Program program = optProgram.get();
+                    show.setProgram(program);
+                    order.setShow(show);
+                    return order;
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -23,6 +23,12 @@ public class ResultMap {
         this.data = data;
     }
 
+    public ResultMap(ResultType resultType, String message) {
+        this.success = resultType.success;
+        this.code = resultType.code;
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);

@@ -1,12 +1,8 @@
 package cn.ecnu.damai.service.impl;
 
 import cn.ecnu.damai.dao.repository.LevelRepository;
-import cn.ecnu.damai.dao.repository.ProgramRepository;
-import cn.ecnu.damai.dao.repository.ShowRepository;
 import cn.ecnu.damai.entity.Level;
 import cn.ecnu.damai.dao.mapper.LevelMapper;
-import cn.ecnu.damai.entity.Program;
-import cn.ecnu.damai.entity.Show;
 import cn.ecnu.damai.service.LevelService;
 import org.springframework.stereotype.Service;
 

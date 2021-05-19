@@ -32,6 +32,7 @@ public class Order {
     @Column(name = "linknum")
     private String linkNum;
     private String attender;
+    private String address;
     @Column(name = "user_id")
     private Integer userId;
     @Column(name = "show_id")

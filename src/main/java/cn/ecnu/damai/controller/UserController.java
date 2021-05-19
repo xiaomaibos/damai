@@ -225,9 +225,11 @@ public class UserController {
 
     @RequestMapping("/confirmOrder")
     @ResponseBody
-    public ResultMap confirmOrder(Integer userId, String linkman, String linknum, String attenders, Integer levelId, Integer count) {
+    public ResultMap confirmOrder(Integer userId, String linkman, String linknum,
+                                  Integer addressId, String attenderIds, Integer levelId, Integer count) {
+        // 生成订单 此处可用队列单程处理
         try {
-            // 生成订单 此处可加队列
+            // 票档
             Level level = levelService.getLevel(levelId);
             if (level == null) {
                 return new ResultMap(ResultType.INVALID_PARAM);
@@ -239,20 +241,9 @@ public class UserController {
             } else {
                 return new ResultMap(ResultType.FAIL);
             }
-
-            List<String> strAtts = SplitString.splitString(attenders, ",");
-            List<Attender> attList = new ArrayList<>();
-            for (String strAtt : strAtts) {
-                Attender attender = attenderService.getAttender(Integer.parseInt(strAtt));
-                if (attender == null) {
-                    return new ResultMap(ResultType.INVALID_PARAM);
-                }
-                attList.add(attender);
-            }
-
+            // 订单
             int price = Integer.parseInt(level.getPrice()) * count;
             String code = RandomString.getRandomString(18);
-
             Order order = new Order();
             order.setCode(code);
             order.setCreateTime(new Date());
@@ -264,7 +255,29 @@ public class UserController {
             order.setLinkNum(linknum);
             order.setUserId(userId);
             order.setShowId(level.getShowId());
-            order.setAttender(JSON.toJSONString(attList));
+            // 收货地址
+            if (addressId != null) {
+                Address address = addressService.getAddress(addressId);
+                if (address == null) {
+                    return new ResultMap(ResultType.INVALID_PARAM);
+                }
+                order.setAddress(JSON.toJSONString(address));
+            }
+
+            // 观影人
+            if (attenderIds != null) {
+                List<String> attenderIdList = SplitString.splitString(attenderIds, ",");
+                List<Attender> attenderList = new ArrayList<>();
+                for (String attenderId : attenderIdList) {
+                    Attender attender = attenderService.getAttender(Integer.parseInt(attenderId));
+                    if (attender == null) {
+                        return new ResultMap(ResultType.INVALID_PARAM);
+                    }
+                    attenderList.add(attender);
+                }
+
+                order.setAttender(JSON.toJSONString(attenderList));
+            }
             orderService.addOrder(order);
 
             // 生成门票
@@ -276,6 +289,24 @@ public class UserController {
                 ticket.setLevelId(levelId);
                 ticketService.addTicket(ticket);
             }
+            return new ResultMap(ResultType.SUCCESS, order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMap(ResultType.SEVER_ERROR);
+        }
+    }
+
+    @RequestMapping("/payOrder")
+    @ResponseBody
+    public ResultMap payOrder(Integer orderId) {
+        try {
+            Order order = orderService.getOrder(orderId);
+            if (order == null || order.getStatus() != 0) {
+                return new ResultMap(ResultType.INVALID_PARAM);
+            }
+            order.setStatus(1);
+            order.setStatusInfo("交易成功");
+            orderService.addOrder(order);
             return new ResultMap(ResultType.SUCCESS, order);
         } catch (Exception e) {
             e.printStackTrace();

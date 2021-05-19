@@ -8,4 +8,6 @@ public interface OrderService {
     Order addOrder(Order order);
 
     List<Order> getOrderList(Integer userId);
+
+    Order getOrder(Integer orderId);
 }

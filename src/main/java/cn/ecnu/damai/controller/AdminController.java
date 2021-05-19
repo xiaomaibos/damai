@@ -1,5 +1,7 @@
 package cn.ecnu.damai.controller;
 
+import cn.ecnu.damai.controller.Response.ResultMap;
+import cn.ecnu.damai.controller.Response.ResultType;
 import cn.ecnu.damai.entity.City;
 import cn.ecnu.damai.entity.Level;
 import cn.ecnu.damai.entity.Program;
@@ -13,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.persistence.Transient;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,27 +97,22 @@ public class AdminController {
 
     @RequestMapping("/damaiCrawl")
     @ResponseBody
-    public Map<String, Object> crawlProgramByCode(String code) {
+    public ResultMap crawlProgramByCode(String code) {
         // 爬去大麦 并入库
-        Map<String, Object> messageMap = new HashMap<>(8);
         Program program = new Program();
         String errStatus = damaiCrawlService.crawlProblemByCode(code, program);
         if (errStatus != null) {
             // 爬取失败
-            messageMap.put("success", true);
-            messageMap.put("code", 250);
-            messageMap.put("message", errStatus);
-            return messageMap;
+            return new ResultMap(ResultType.FAIL, errStatus);
         }
         // 成功 则进行入库
         try {
-            List<City> cities = cityService.getCityList();
             String name = program.getCity().getName();
-            for (City city : cities) {
-                if (city.getName().equals(name)) {
-                    program.setCityId(city.getCityId());
-                }
+            City city = cityService.findCityByName(name);
+            if (city == null) {
+                return new ResultMap(ResultType.INVALID_PARAM);
             }
+            program.setCityId(city.getCityId());
 
             Set<Show> shows = program.getShows();
             programService.addProgram(program);
@@ -130,17 +125,10 @@ public class AdminController {
                     levelService.addLevel(level);
                 }
             }
+            return new ResultMap(ResultType.SUCCESS, program);
         } catch (Exception e) {
-            messageMap.put("success", false);
-            messageMap.put("code", 999);
-            messageMap.put("message", "系统异常");
-            return messageMap;
+            e.printStackTrace();
+            return new ResultMap(ResultType.SEVER_ERROR);
         }
-
-        messageMap.put("data", program);
-        messageMap.put("success", true);
-        messageMap.put("code", 0);
-        messageMap.put("message", "爬取成功");
-        return messageMap;
     }
 }
