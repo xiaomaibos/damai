@@ -80,7 +80,6 @@
         FROM ticket,
              user,
              `order`,
-             level,
              `show`,
              program,
              category
@@ -88,6 +87,7 @@
           AND `order`.show_id = `show`.id
           AND `show`.program_id = program.id
           AND program.category_id = category.id
+          AND ticket.order_id = `order`.id
           AND user.id = #{userId}
     </select>
 </mapper>

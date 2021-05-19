@@ -331,10 +331,12 @@ public class UserController {
      * input 用户ID
      * 输出 Map    分类名称 - 票数  键值对
      * 元素代表用户在该分类下购买过得票数
+     *
+     * @return
      */
     @RequestMapping("/getTicketCount")
     @ResponseBody
-    public Map<String, Integer> getTicketCountByUserId(Integer userId) {
+    public Map<String, Object> getTicketCountByUserId(Integer userId) {
         return userService.getTicketCountByUserId(userId);
     }
 
@@ -346,7 +348,7 @@ public class UserController {
      */
     @RequestMapping("/getAmountOfCategory")
     @ResponseBody
-    public Map<String, String> getAmountOfCategoryByUserId(Integer userId) {
+    public Map<String, Object> getAmountOfCategoryByUserId(Integer userId) {
         return userService.getAmountOfCategoryByUserId(userId);
     }
 }

@@ -76,10 +76,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Integer> getTicketCountByUserId(Integer userId) {
+    public Map<String, Object> getTicketCountByUserId(Integer userId) {
 
+        // 该用户的所有订票
         List<Ticket> tickets = userMapper.getTicketByUserId(userId);
 
+        // 所有的目录
         List<Category> categoryList = categoryMapper.getCategoryList();
 
         // 计数
@@ -95,11 +97,20 @@ public class UserServiceImpl implements UserService {
             count.put(name, count.get(name) + 1);
         }
 
-        return count;
+        Map<String, Object> result = new HashMap<>(16);
+
+        result.put("order", count);
+        List<Integer> list = new ArrayList<>();
+        Set<String> set = count.keySet();
+        for (String s : set) {
+            list.add(count.get(s));
+        }
+        result.put("list", list);
+        return result;
     }
 
     @Override
-    public Map<String, String> getAmountOfCategoryByUserId(Integer userId) {
+    public Map<String, Object> getAmountOfCategoryByUserId(Integer userId) {
         List<Category> categoryList = categoryMapper.getCategoryList();
         List<Ticket> tickets = userMapper.getTicketByUserId(userId);
 
@@ -117,7 +128,18 @@ public class UserServiceImpl implements UserService {
             String amount = bigDecimal.add(new BigDecimal(count.get(name))).toString();
             count.put(name, amount);
         }
-        return count;
+
+        Map<String, Object> result = new HashMap<>(16);
+        result.put("order", count);
+
+        List<String> list = new ArrayList<>();
+
+        Set<String> set = count.keySet();
+        for (String s : set) {
+            list.add(count.get(s));
+        }
+        result.put("list", list);
+        return result;
     }
 
 }

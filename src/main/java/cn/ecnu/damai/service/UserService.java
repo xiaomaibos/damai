@@ -26,7 +26,7 @@ public interface UserService {
 
     User findUserByUserId(Integer userId);
 
-    Map<String, Integer> getTicketCountByUserId(Integer userId);
+    Map<String, Object> getTicketCountByUserId(Integer userId);
 
-    Map<String, String> getAmountOfCategoryByUserId(Integer userId);
+    Map<String, Object> getAmountOfCategoryByUserId(Integer userId);
 }
