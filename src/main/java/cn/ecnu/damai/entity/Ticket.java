@@ -28,6 +28,9 @@ public class Ticket {
     private Integer levelId;
 
     @Transient
+    private Category category;
+
+    @Transient
     private Order order;
 
     @Transient

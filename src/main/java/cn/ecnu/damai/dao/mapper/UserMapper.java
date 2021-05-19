@@ -1,6 +1,9 @@
 package cn.ecnu.damai.dao.mapper;
 
+import cn.ecnu.damai.entity.Ticket;
 import cn.ecnu.damai.entity.User;
+
+import java.util.List;
 
 /**
  * @author Kyrie Lee
@@ -22,4 +25,6 @@ public interface UserMapper {
     User findUserByUserId(Integer userId);
 
     int updateUser(User user);
+
+    List<Ticket> getTicketByUserId(Integer userId);
 }

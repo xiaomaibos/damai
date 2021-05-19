@@ -2,6 +2,8 @@ package cn.ecnu.damai.service;
 
 import cn.ecnu.damai.entity.User;
 
+import java.util.Map;
+
 /**
  * @author Kyrie Lee
  * @date 2021/5/11 10:43
@@ -24,4 +26,7 @@ public interface UserService {
 
     User findUserByUserId(Integer userId);
 
+    Map<String, Integer> getTicketCountByUserId(Integer userId);
+
+    Map<String, String> getAmountOfCategoryByUserId(Integer userId);
 }

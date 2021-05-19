@@ -51,4 +51,43 @@
             image_url = #{headImg}
         WHERE id = #{uid}
     </update>
+
+    <resultMap id="ticketMap" type="cn.ecnu.damai.entity.Ticket">
+        <id property="ticketId" column="ticketId"/>
+        <result property="price" column="price"/>
+        <result property="seatInfo" column="seatInfo"/>
+        <result property="seatNum" column="seatNum"/>
+        <result property="valid" column="valid"/>
+        <result property="orderId" column="orderId"/>
+        <result property="levelId" column="levelId"/>
+        <association property="category" javaType="cn.ecnu.damai.entity.Category">
+            <id property="cid" column="categoryId"/>
+            <result property="name" column="name"/>
+            <result property="count" column="count"/>
+        </association>
+    </resultMap>
+    <select id="getTicketByUserId" resultMap="ticketMap">
+        SELECT ticket.id        AS ticketId,
+               ticket.price     AS price,
+               ticket.seat_num  AS seatNum,
+               ticket.seat_info AS seatInfo,
+               ticket.valid     AS valid,
+               ticket.order_id  AS orderId,
+               ticket.level_id  AS levelId,
+               category.id      AS categoryId,
+               category.name    AS name,
+               category.count   AS count
+        FROM ticket,
+             user,
+             `order`,
+             level,
+             `show`,
+             program,
+             category
+        WHERE user.id = `order`.user_id
+          AND `order`.show_id = `show`.id
+          AND `show`.program_id = program.id
+          AND program.category_id = category.id
+          AND user.id = #{userId}
+    </select>
 </mapper>

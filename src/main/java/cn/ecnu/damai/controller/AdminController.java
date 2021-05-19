@@ -7,9 +7,6 @@ import cn.ecnu.damai.entity.Level;
 import cn.ecnu.damai.entity.Program;
 import cn.ecnu.damai.entity.Show;
 import cn.ecnu.damai.service.*;
-import cn.ecnu.damai.service.LevelService;
-import cn.ecnu.damai.service.ProgramService;
-import cn.ecnu.damai.service.ShowService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -120,7 +117,7 @@ public class AdminController {
                 show.setProgramId(program.getPid());
                 Set<Level> levels = show.getLevels();
                 showService.addShow(show);
-                for (Level level: levels) {
+                for (Level level : levels) {
                     level.setShowId(show.getShowId());
                     levelService.addLevel(level);
                 }

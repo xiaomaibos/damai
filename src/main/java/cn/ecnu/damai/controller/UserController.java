@@ -282,7 +282,7 @@ public class UserController {
 
             // 生成门票
             for (int i = 0; i < count; i++) {
-                Ticket ticket= new Ticket();
+                Ticket ticket = new Ticket();
                 ticket.setPrice(level.getPrice());
                 ticket.setValid(1);
                 ticket.setOrderId(order.getOrderId());
@@ -326,4 +326,24 @@ public class UserController {
         }
     }
 
+
+    /**
+     * input 用户ID
+     * 输出 长度为10的数组 对应10个分类 数组元素代表用户在该分类下购买过得票数
+     */
+    @RequestMapping("/getTicketCount")
+    @ResponseBody
+    public Map<String, Integer> getTicketCountByUserId(Integer userId) {
+        return userService.getTicketCountByUserId(userId);
+    }
+
+    /**
+     * input 用户ID
+     * 输出 长度为10的数组 对应10个分类 数组元素代表用户在该分类下消费的金额统计
+     */
+    @RequestMapping("/getAmountOfCategory")
+    @ResponseBody
+    public String getAmountOfCategoryByUserId(Integer userId) {
+        return userService.getAmountOfCategoryByUserId(userId);
+    }
 }
