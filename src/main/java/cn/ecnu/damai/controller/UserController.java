@@ -329,7 +329,8 @@ public class UserController {
 
     /**
      * input 用户ID
-     * 输出 长度为10的数组 对应10个分类 数组元素代表用户在该分类下购买过得票数
+     * 输出 Map    分类名称 - 票数  键值对
+     * 元素代表用户在该分类下购买过得票数
      */
     @RequestMapping("/getTicketCount")
     @ResponseBody
@@ -339,11 +340,13 @@ public class UserController {
 
     /**
      * input 用户ID
-     * 输出 长度为10的数组 对应10个分类 数组元素代表用户在该分类下消费的金额统计
+     * 元素代表用户在该分类下消费的金额统计
+     *
+     * @return 输出 Map    分类名称 - 价格  键值对
      */
     @RequestMapping("/getAmountOfCategory")
     @ResponseBody
-    public String getAmountOfCategoryByUserId(Integer userId) {
+    public Map<String, String> getAmountOfCategoryByUserId(Integer userId) {
         return userService.getAmountOfCategoryByUserId(userId);
     }
 }
